@@ -10,8 +10,8 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "add new").click()
 
-    def create_contact(self, contact):
-        self.app.open_add_new_contact_page()
+    def create(self, contact):
+        self.open_add_new_contact_page()
         wd = self.app.wd
         # Enter the firstname
         wd.find_element(By.NAME, "firstname").click()
