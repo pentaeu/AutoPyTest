@@ -42,8 +42,10 @@ class ContactHelper:
         wd.find_element(By.NAME, "email").click()
         wd.find_element(By.NAME, "email").clear()
         wd.find_element(By.NAME, "email").send_keys(contact.email)
+        # Submit creation
+        wd.find_element(By.NAME, "submit").click()
         self.back_to_home_page()
 
     def back_to_home_page(self):
         wd = self.app.wd
-        wd.find_element(By.XPATH, "//div[@id='content']/form/input[21]").click()
+        wd.find_element(By.XPATH, '//*[@id="content"]/div/i/a[2]').click()
