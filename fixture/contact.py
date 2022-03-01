@@ -69,6 +69,31 @@ class ContactHelper:
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").clear()
         wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
+        # Update middlename data
+        wd.find_element(By.NAME, "middlename").click()
+        wd.find_element(By.NAME, "middlename").clear()
+        wd.find_element(By.NAME, "middlename").send_keys(contact.middlename)
+        # Update lastname data
+        wd.find_element(By.NAME, "lastname").click()
+        wd.find_element(By.NAME, "lastname").clear()
+        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
+        # Update nickname data
+        wd.find_element(By.NAME, "nickname").click()
+        wd.find_element(By.NAME, "nickname").clear()
+        wd.find_element(By.NAME, "nickname").send_keys(contact.nickname)
+        # Update company data
+        wd.find_element(By.NAME, "company").click()
+        wd.find_element(By.NAME, "company").clear()
+        wd.find_element(By.NAME, "company").send_keys(contact.company)
+        # Update address data
+        wd.find_element(By.NAME, "address").click()
+        wd.find_element(By.NAME, "address").clear()
+        wd.find_element(By.NAME, "address").send_keys(contact.address)
+        # Update email data
+        wd.find_element(By.NAME, "email").click()
+        wd.find_element(By.NAME, "email").clear()
+        wd.find_element(By.NAME, "email").send_keys(contact.email)
+        # Submit update
         wd.find_element(By.NAME, "update").click()
         self.back_to_home_page()
 

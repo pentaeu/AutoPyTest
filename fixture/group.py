@@ -38,7 +38,7 @@ class GroupHelper:
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
 
-    def update_first_group(self):
+    def update_first_group(self, group):
         wd = self.app.wd
         self.open_group_page()
         # Select first group
@@ -46,9 +46,15 @@ class GroupHelper:
         # Update first group
         wd.find_element(By.NAME, "edit").click()
         # Fill new form
+        wd.find_element(By.NAME, "group_name").click()
+        wd.find_element(By.NAME, "group_name").clear()
+        wd.find_element(By.NAME, "group_name").send_keys(group.name)
         wd.find_element(By.NAME, "group_header").click()
         wd.find_element(By.NAME, "group_header").clear()
-        wd.find_element(By.NAME, "group_header").send_keys("awda123123123213")
+        wd.find_element(By.NAME, "group_header").send_keys(group.header)
+        wd.find_element(By.NAME, "group_footer").click()
+        wd.find_element(By.NAME, "group_footer").clear()
+        wd.find_element(By.NAME, "group_footer").send_keys(group.footer)
         # Submit update
         wd.find_element(By.NAME, "update").click()
         self.return_to_groups_page()
