@@ -57,7 +57,7 @@ class ContactHelper:
         # Accept delete
         wd.switch_to.alert.accept()
 
-    def update_first_contact(self):
+    def update_first_contact(self, contact):
         wd = self.app.wd
         # Go to home page
         wd.find_element(By.LINK_TEXT, "home").click()
@@ -68,7 +68,7 @@ class ContactHelper:
         # Update firstname data
         wd.find_element(By.NAME, "firstname").click()
         wd.find_element(By.NAME, "firstname").clear()
-        wd.find_element(By.NAME, "firstname").send_keys("123123123")
+        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
         wd.find_element(By.NAME, "update").click()
         self.back_to_home_page()
 
