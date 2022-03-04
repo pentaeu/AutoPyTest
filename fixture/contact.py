@@ -10,65 +10,52 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "add new").click()
 
-    def fill_the_form(self, contact):
+    def update_field_data(self, field_name, text):
         wd = self.app.wd
-        # Fill firstname data
-        wd.find_element(By.NAME, "firstname").click()
-        wd.find_element(By.NAME, "firstname").clear()
-        wd.find_element(By.NAME, "firstname").send_keys(contact.firstname)
-        # Fill middlename data
-        wd.find_element(By.NAME, "middlename").click()
-        wd.find_element(By.NAME, "middlename").clear()
-        wd.find_element(By.NAME, "middlename").send_keys(contact.middlename)
-        # Fill lastname data
-        wd.find_element(By.NAME, "lastname").click()
-        wd.find_element(By.NAME, "lastname").clear()
-        wd.find_element(By.NAME, "lastname").send_keys(contact.lastname)
-        # Fill nickname data
-        wd.find_element(By.NAME, "nickname").click()
-        wd.find_element(By.NAME, "nickname").clear()
-        wd.find_element(By.NAME, "nickname").send_keys(contact.nickname)
-        # Fill company data
-        wd.find_element(By.NAME, "company").click()
-        wd.find_element(By.NAME, "company").clear()
-        wd.find_element(By.NAME, "company").send_keys(contact.company)
-        # Fill address data
-        wd.find_element(By.NAME, "address").click()
-        wd.find_element(By.NAME, "address").clear()
-        wd.find_element(By.NAME, "address").send_keys(contact.address)
-        # Fill email data
-        wd.find_element(By.NAME, "email").click()
-        wd.find_element(By.NAME, "email").clear()
-        wd.find_element(By.NAME, "email").send_keys(contact.email)
+        if text is not None:
+            wd.find_element(By.NAME, field_name).click()
+            wd.find_element(By.NAME, field_name).clear()
+            wd.find_element(By.NAME, field_name).send_keys(text)
+
+    def fill_contact_form(self, contact):
+        self.update_field_data("firstname", contact.firstname)
+        self.update_field_data("middlename", contact.middlename)
+        self.update_field_data("lastname", contact.lastname)
+        self.update_field_data("nickname", contact.nickname)
+        self.update_field_data("company", contact.company)
+        self.update_field_data("address", contact.address)
+        self.update_field_data("email", contact.email)
 
     def create(self, contact):
         wd = self.app.wd
         self.open_add_new_contact_page()
-        self.fill_the_form(contact)
+        self.fill_contact_form(contact)
         # Submit creation
         wd.find_element(By.NAME, "submit").click()
         self.back_to_home_page()
 
     def delete_first_contact(self):
         wd = self.app.wd
-        # Go to home page
-        wd.find_element(By.LINK_TEXT, "home").click()
-        # Select address
-        wd.find_element(By.NAME, "selected[]").click()
+        self.open_home_page(wd)
+        self.select_first_contact(wd)
         # Delete address
         wd.find_element(By.XPATH, '//*[@id="content"]/form[2]/div[2]/input').click()
         # Accept delete
         wd.switch_to.alert.accept()
 
-    def update_first_contact(self, contact):
-        wd = self.app.wd
-        # Go to home page
+    def open_home_page(self, wd):
         wd.find_element(By.LINK_TEXT, "home").click()
-        # Select address
+
+    def select_first_contact(self, wd):
         wd.find_element(By.NAME, "selected[]").click()
+
+    def edit_first_contact(self, new_contact_data):
+        wd = self.app.wd
+        self.open_home_page(wd)
+        self.select_first_contact(wd)
         # Go to update page
         wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
-        self.fill_the_form(contact)
+        self.fill_contact_form(new_contact_data)
         # Submit update
         wd.find_element(By.NAME, "update").click()
         self.back_to_home_page()
