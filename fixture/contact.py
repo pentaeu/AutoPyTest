@@ -37,26 +37,35 @@ class ContactHelper:
         self.back_to_home_page()
         self.contact_cache = None
 
-    def delete_first_contact(self):
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
-        self.open_home_page(wd)
-        self.select_first_contact(wd)
+        self.open_home_page()
+        self.select_contact_by_index(index)
         # Delete address
         wd.find_element(By.XPATH, '//*[@id="content"]/form[2]/div[2]/input').click()
         # Accept delete
         wd.switch_to.alert.accept()
         self.contact_cache = None
 
-    def open_home_page(self, wd):
+    def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def open_home_page(self):
+        wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "home").click()
 
-    def select_first_contact(self, wd):
+    def select_first_contact(self):
+        wd = self.app.wd
         wd.find_element(By.NAME, "selected[]").click()
 
-    def edit_first_contact(self, new_contact_data):
+    def select_contact_by_index(self, index):
         wd = self.app.wd
-        self.open_home_page(wd)
-        self.select_first_contact(wd)
+        wd.find_elements(By.NAME, "selected[]")[index].click()
+
+    def edit_contact_by_index(self, index, new_contact_data):
+        wd = self.app.wd
+        self.open_home_page()
+        self.select_contact_by_index(index)
         # Go to update page
         wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
         self.fill_contact_form(new_contact_data)
@@ -65,13 +74,16 @@ class ContactHelper:
         self.back_to_home_page()
         self.contact_cache = None
 
+    def edit_first_contact(self, new_contact_data):
+        self.edit_contact_by_index(0, new_contact_data)
+
     def back_to_home_page(self):
         wd = self.app.wd
         wd.find_element(By.LINK_TEXT, "home page").click()
 
     def count(self):
         wd = self.app.wd
-        self.open_home_page(wd)
+        self.open_home_page()
         return len(wd.find_elements(By.NAME, "selected[]"))
 
     contact_cache = None
@@ -79,7 +91,7 @@ class ContactHelper:
     def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            self.open_home_page(wd)
+            self.open_home_page()
             self.contact_cache = []
             for element in wd.find_elements(By.NAME, "entry"):
                 text = element.text

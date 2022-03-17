@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from model.group import Group
 
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -34,19 +35,25 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
-    def delete_first_group(self):
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         self.open_group_page()
-        self.select_first_group(wd)
+        self.select_group_by_index(index)
         # Delete first group
         wd.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
         self.group_cache = None
 
+    def delete_first_group(self):
+        self.delete_group_by_index(0)
+
     def edit_first_group(self, new_group_data):
+        self.edit_group_by_index(0, new_group_data)
+
+    def edit_group_by_index(self, index, new_group_data):
         wd = self.app.wd
         self.open_group_page()
-        self.select_first_group(wd)
+        self.select_group_by_index(index)
         # Edit first group
         wd.find_element(By.NAME, "edit").click()
         self.fill_group_form(new_group_data)
@@ -55,8 +62,13 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
-    def select_first_group(self, wd):
+    def select_first_group(self):
+        wd = self.app.wd
         wd.find_element(By.NAME, "selected[]").click()
+
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements(By.NAME, "selected[]")[index].click()
 
     def return_to_groups_page(self):
         wd = self.app.wd
@@ -79,3 +91,4 @@ class GroupHelper:
                 group_id = element.find_element(By.NAME, "selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, group_id=group_id))
         return list(self.group_cache)
+
