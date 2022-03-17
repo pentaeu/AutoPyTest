@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from model.contact import Contact
 
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -34,6 +35,7 @@ class ContactHelper:
         # Submit creation
         wd.find_element(By.NAME, "submit").click()
         self.back_to_home_page()
+        self.contact_cache = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -43,6 +45,7 @@ class ContactHelper:
         wd.find_element(By.XPATH, '//*[@id="content"]/form[2]/div[2]/input').click()
         # Accept delete
         wd.switch_to.alert.accept()
+        self.contact_cache = None
 
     def open_home_page(self, wd):
         wd.find_element(By.LINK_TEXT, "home").click()
@@ -60,6 +63,7 @@ class ContactHelper:
         # Submit update
         wd.find_element(By.NAME, "update").click()
         self.back_to_home_page()
+        self.contact_cache = None
 
     def back_to_home_page(self):
         wd = self.app.wd
@@ -70,12 +74,15 @@ class ContactHelper:
         self.open_home_page(wd)
         return len(wd.find_elements(By.NAME, "selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        contact_list = []
-        wd = self.app.wd
-        self.open_home_page(wd)
-        for element in wd.find_elements(By.NAME, "entry"):
-            text = element.text
-            contact_id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-            contact_list.append(Contact(firstname=text, contact_id=contact_id))
-        return contact_list
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_home_page(wd)
+            self.contact_cache = []
+            for element in wd.find_elements(By.NAME, "entry"):
+                text = element.text
+                contact_id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(firstname=text, contact_id=contact_id))
+        return list(self.contact_cache)
