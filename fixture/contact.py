@@ -67,7 +67,7 @@ class ContactHelper:
         self.open_home_page()
         self.select_contact_by_index(index)
         # Go to update page
-        wd.find_element(By.XPATH, "//img[@alt='Edit']").click()
+        wd.find_element(By.XPATH, "//img[@alt='Edit']")[index].click()
         self.fill_contact_form(new_contact_data)
         # Submit update
         wd.find_element(By.NAME, "update").click()
