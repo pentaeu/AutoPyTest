@@ -97,5 +97,5 @@ class ContactHelper:
                 contact_id = element.find_element(By.NAME, "selected[]").get_attribute("value")
                 firstname = element.find_element(By.XPATH, './td[3]').text
                 lastname = element.find_element(By.XPATH, './td[2]').text
-                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, contact_id=contact_id))
+                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=contact_id))
         return list(self.contact_cache)
