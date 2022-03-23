@@ -18,7 +18,7 @@ class ContactHelper:
             self.wd.find_element(By.NAME, field_name).clear()
             self.wd.find_element(By.NAME, field_name).send_keys(text)
 
-    def get_attribute_by_name(self, field_name):
+    def get_attribute_value_by_name(self, field_name):
         return self.wd.find_element(By.NAME, field_name).get_attribute("value")
 
     def fill_contact_form(self, contact):
@@ -109,16 +109,16 @@ class ContactHelper:
 
     def get_contact_info_from_edit_page(self, index):
         self.open_contact_to_edit_by_index(index)
-        firstname = self.get_attribute_by_name("firstname")
-        lastname = self.get_attribute_by_name("lastname")
-        contact_id = self.get_attribute_by_name("id")
-        address = self.get_attribute_by_name("address")
-        home_phone = self.get_attribute_by_name("home")
-        work_phone = self.get_attribute_by_name("work")
-        mobile_phone = self.get_attribute_by_name("mobile")
-        email1 = self.get_attribute_by_name("email")
-        email2 = self.get_attribute_by_name("email2")
-        email3 = self.get_attribute_by_name("email3")
+        firstname = self.get_attribute_value_by_name("firstname")
+        lastname = self.get_attribute_value_by_name("lastname")
+        contact_id = self.get_attribute_value_by_name("id")
+        address = self.get_attribute_value_by_name("address")
+        home_phone = self.get_attribute_value_by_name("home")
+        work_phone = self.get_attribute_value_by_name("work")
+        mobile_phone = self.get_attribute_value_by_name("mobile")
+        email1 = self.get_attribute_value_by_name("email")
+        email2 = self.get_attribute_value_by_name("email2")
+        email3 = self.get_attribute_value_by_name("email3")
         return Contact(firstname=firstname, lastname=lastname, id=contact_id, home_phone=home_phone, mobile_phone=mobile_phone,
                        work_phone=work_phone, email1=email1, email2=email2, email3=email3, address=address)
 
