@@ -4,7 +4,7 @@ from random import randrange
 
 def test_del_group(app):
     if app.group.count() == 0:
-        app.group.create(Group(name="dellele"))
+        app.group.create(Group(name="SomeGroupForDelete"))
     old_groups = app.group.get_group_list()
     index = randrange(len(old_groups))
     app.group.delete_group_by_index(index)

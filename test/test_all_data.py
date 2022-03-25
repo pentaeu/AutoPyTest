@@ -16,25 +16,21 @@ def test_all_data_on_home_page(app):
     assert contact_data_from_home_page.lastname == contact_data_from_edit_page.lastname
     assert contact_data_from_home_page.firstname == contact_data_from_edit_page.firstname
     assert contact_data_from_home_page.address == contact_data_from_edit_page.address
-    assert contact_data_from_home_page.all_emails_from_home_page == \
-           merge_emails_on_edit_page(contact_data_from_edit_page)
-    assert contact_data_from_home_page.all_phones_from_home_page == \
-           merge_phones_on_edit_page(contact_data_from_edit_page)
+    assert contact_data_from_home_page.all_phones_from_home_page == merge_phones(contact_data_from_edit_page)
+    assert contact_data_from_home_page.all_emails_from_home_page == merge_emails(contact_data_from_edit_page)
 
 
 def clear(s):
     return re.sub("[() -]", "", s)
 
 
-def merge_phones_on_edit_page(contact):
+def merge_phones(contact):
     return "\n".join(filter(lambda x: x != "",
                             map(lambda x: clear(x),
                                 filter(lambda x: x is not None,
                                        [contact.home_phone, contact.mobile_phone, contact.work_phone]))))
 
 
-def merge_emails_on_edit_page(contact):
+def merge_emails(contact):
     return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear(x),
-                                filter(lambda x: x is not None,
-                                       [contact.email1, contact.email2, contact.email3]))))
+                            filter(lambda x: x is not None, [contact.email1, contact.email2, contact.email3])))

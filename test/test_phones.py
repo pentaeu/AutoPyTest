@@ -30,9 +30,3 @@ def merge_phones_on_edit_page(contact):
                                 filter(lambda x: x is not None,
                                        [contact.home_phone, contact.mobile_phone, contact.work_phone]))))
 
-
-def merge_emails_on_edit_page(contact):
-    return "\n".join(filter(lambda x: x != "",
-                            map(lambda x: clear(x),
-                                filter(lambda x: x is not None,
-                                       [contact.email1, contact.email2, contact.email3]))))
