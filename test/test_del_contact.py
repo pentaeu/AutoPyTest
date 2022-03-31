@@ -12,8 +12,3 @@ def test_del_contact(app):
     new_contacts = app.contact.get_contact_list()
     old_contacts[index:index+1] = []
     assert old_contacts == new_contacts
-
-
-def test_del_contacts(app):
-    if app.contact.count() == 0:
-        app.contact.create(Contact(firstname="Some_contact_for_delete"))
