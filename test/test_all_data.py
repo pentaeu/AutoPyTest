@@ -20,3 +20,32 @@ import re
 #     assert contact_data_from_home_page.all_emails_from_home_page == merge_emails(contact_data_from_edit_page)
 
 
+def test_all_contacts_on_home_page(app, db):
+    contacts_db = sorted(db.get_contact_list(), key=Contact.id_or_max)
+    contacts_ui = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
+    assert len(contacts_ui) == len(contacts_db)
+    for item in range(0, len(contacts_db)):
+        contact_from_home_page = contacts_ui[item]
+        contact_list_db = contacts_db[item]
+        assert contact_from_home_page.id == contact_list_db.id
+        assert contact_from_home_page.firstname == contact_list_db.firstname
+        assert contact_from_home_page.lastname == contact_list_db.lastname
+        assert contact_from_home_page.address == contact_list_db.address
+        assert contact_from_home_page.all_phones_from_home_page == merge_phones(contact_list_db)
+        assert contact_from_home_page.all_emails_from_home_page == merge_emails(contact_list_db)
+
+
+def clear(s):
+    return re.sub("[() -]", "", s)
+
+
+def merge_phones(contact):
+    return "\n".join(filter(lambda x: x != "",
+                            map(lambda x: clear(x),
+                                filter(lambda x: x is not None,
+                                       [contact.home_phone, contact.mobile_phone, contact.work_phone]))))
+
+
+def merge_emails(contact):
+    return "\n".join(filter(lambda x: x != "",
+                            filter(lambda x: x is not None, [contact.email1, contact.email2, contact.email3])))
