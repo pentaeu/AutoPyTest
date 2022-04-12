@@ -48,8 +48,15 @@ class ContactHelper:
         self.app.open_home_page()
         self.select_contact_by_index(index)
         # Delete address
-        self.wd.find_element(By.XPATH, '//*[@id="content"]/form[2]/div[2]/input').click()
+        self.wd.find_element_by_xpath("//input[@value='Delete']").click()
         # Accept delete
+        self.wd.switch_to.alert.accept()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        self.app.open_home_page()
+        self.select_contact_by_id(id)
+        self.wd.find_element_by_xpath("//input[@value='Delete']").click()
         self.wd.switch_to.alert.accept()
         self.contact_cache = None
 
@@ -62,6 +69,10 @@ class ContactHelper:
     def select_contact_by_index(self, index):
         self.wd.find_elements(By.NAME, "selected[]")[index].click()
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
     def edit_contact_by_index(self, index, new_contact_data):
         self.app.open_home_page()
         self.select_contact_by_index(index)
@@ -70,6 +81,17 @@ class ContactHelper:
         self.fill_contact_form(new_contact_data)
         # Submit update
         self.wd.find_element(By.NAME, "update").click()
+        self.back_to_home_page()
+        self.contact_cache = None
+
+    def edit_contact_by_id(self, id, new_contact_data):
+        self.app.open_home_page()
+        self.select_contact_by_id(id)
+        # Go to update page
+        self.wd.find_element_by_xpath("//a[@href='edit.php?id=%s']/img" % id).click()
+        self.fill_contact_form(new_contact_data)
+        # Submit update
+        self.wd.find_element_by_name("update").click()
         self.back_to_home_page()
         self.contact_cache = None
 
