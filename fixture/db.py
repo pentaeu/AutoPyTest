@@ -43,5 +43,13 @@ class DbFixture:
             cursor.close()
         return contact_list
 
+    def add_contact_to_group_by_id(self, contact_id, group_id):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(f"INSERT INTO `address_in_groups` (`domain_id`, `id`, `group_id`, `created`, `modified`, `deprecated`) VALUES "
+                           f"('0', '{contact_id}', '{group_id}', '2022-04-10 00:00:00', '2022-04-10 00:00:00', '0000-00-00 00:00:00')")
+        finally:
+            cursor.close()
+
     def destroy(self):
         self.connection.close()
