@@ -23,7 +23,7 @@ class DbFixture:
             cursor.execute("select group_id, group_name, group_header, group_footer from group_list")
             for row in cursor:
                 (id, name, header, footer) = row
-                group_list.append(Group(group_id=str(id), name=name, header=header, footer=footer))
+                group_list.append(Group(id=str(id), name=name, header=header, footer=footer))
         finally:
             cursor.close()
         return group_list
@@ -50,6 +50,18 @@ class DbFixture:
                            f"('0', '{contact_id}', '{group_id}', '2022-04-10 00:00:00', '2022-04-10 00:00:00', '0000-00-00 00:00:00')")
         finally:
             cursor.close()
+
+    def get_groups_with_contacts(self):
+        group_list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select group_id from address_in_groups")
+            for group_id in cursor:
+                (id,) = group_id
+                group_list.append(str(id))
+        finally:
+            cursor.close()
+        return group_list
 
     def destroy(self):
         self.connection.close()
