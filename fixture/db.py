@@ -63,5 +63,19 @@ class DbFixture:
             cursor.close()
         return group_list
 
+    def delete_all_contacts_from_group(self, group_id):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(f"delete from address_in_groups where group_id = {group_id}")
+        finally:
+            cursor.close()
+
+    def delete_contacts_from_groups(self):
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("delete from address_in_groups")
+        finally:
+            cursor.close()
+
     def destroy(self):
         self.connection.close()
