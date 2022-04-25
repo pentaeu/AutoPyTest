@@ -9,8 +9,9 @@ def test_add_contact_to_group(app, db, orm):
     if len(db.get_contact_list()) == 0:
         app.contact.create(Contact(firstname="SomeContactForGroup"))
     group = random.choice(db.get_group_list())
+    if len(orm.get_contacts_not_in_group(group)) == 0:
+        db.delete_all_contacts_from_group(group.id)
     contact = random.choice(orm.get_contacts_not_in_group(group))
-    db.delete_all_contacts_from_group(group.id)
     app.contact.add_contact_to_group_by_id(contact.id, group.id)
     contacts_in_group = orm.get_contacts_in_group(group)
     assert contact in contacts_in_group
