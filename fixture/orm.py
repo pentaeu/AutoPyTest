@@ -4,6 +4,7 @@ from model.group import Group
 from model.contact import Contact
 
 
+
 class ORMFixture:
 
     db = Database()
