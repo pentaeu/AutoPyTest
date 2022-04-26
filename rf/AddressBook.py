@@ -3,6 +3,7 @@ import os.path
 from fixture.db import DbFixture
 from fixture.application import Application
 from model.group import Group
+from model.contact import Contact
 
 
 class AddressBook:
@@ -41,3 +42,21 @@ class AddressBook:
 
     def create_group(self, group):
         self.fixture.group.create(group)
+
+    def new_contact(self, firstname, middlename):
+        return Contact(firstname=firstname, middlename=middlename)
+
+    def delete_contact(self, contact):
+        self.fixture.contact.delete_contact_by_id(contact.id)
+
+    def get_contact_list(self):
+        return self.fixture.contact.get_contact_list()
+
+    def contact_lists_should_be_equal(self, list1, list2):
+        assert sorted(list1, key=Contact.id_or_max) == sorted(list2, key=Contact.id_or_max)
+
+    def create_contact(self, contact):
+        self.fixture.contact.create(contact)
+
+    def update_contact(self, contact, new_contact_data):
+        self.fixture.contact.edit_contact_by_id(contact.id, new_contact_data)
