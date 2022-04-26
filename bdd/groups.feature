@@ -10,10 +10,8 @@ Scenario Outline: Add new group
   | name2 |header2 | footer2 |
 
 
-
 Scenario Outline: Delete a group
   Given a non-empty group list
   Given a random group from the list
   When I delete group from the list
   Then the new group list is equal to the old list group without the deleted group
-

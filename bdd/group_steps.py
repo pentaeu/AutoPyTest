@@ -1,5 +1,6 @@
 from pytest_bdd import given, when, then
 from model.group import Group
+from random import randrange
 import random
 
 
@@ -52,3 +53,6 @@ def verify_group_deleted(db, non_empty_group_list, random_group, app, check_ui):
     assert old_groups == new_groups
     if check_ui:
         assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(), key=Group.id_or_max)
+
+
+
