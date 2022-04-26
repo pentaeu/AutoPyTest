@@ -7,3 +7,4 @@ pony
 pymysql
 mysql-connector-python-rf
 lxml-4.8.0-cp39-cp39-win_amd64.whl
+robotframework-python3
